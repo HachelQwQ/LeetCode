@@ -64,15 +64,23 @@
 # @lc code=start
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
-        queue = list(p)
+        left = 0
+        right = len(p)
         
         for str in s:
-            if not queue:
+            # pattern遍历完后，str还没遍历完
+            if left >= right:
                 return False
-            print(str, queue)
-            while not self.match(str, queue[0]):
-                queue.pop(0)
-            queue.pop(0)
+            
+            print(left, str, p[left])
+            
+            if not self.match(str, p[left]):
+                return False
+            left += 1
+            
+        # str遍历完后，pattern还没遍历完
+        if not left >= right:
+            return False
 
         return True
     
@@ -84,4 +92,4 @@ class Solution:
 
 # @lc code=end
 
-print(Solution().isMatch('aaa', 'b.a'))
+print(Solution().isMatch('ab.d', 'a..d'))
