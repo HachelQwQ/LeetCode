@@ -73,11 +73,28 @@ class Solution:
                 return False
             
             print(left, str, p[left])
-            
-            if not self.match(str, p[left]):
-                return False
-            left += 1
-            
+
+            # 如果pattern字符后接*并且，不匹配，则跳过当前字符和*
+            while left < right -1 and p[left + 1] == '*':
+                print('*')
+                if not self.match(str, p[left]):
+                    left += 2
+                # 如果s字符和p的*后的字符匹配
+                elif left < right - 2 and self.match(str, p[left + 2]):
+                    left += 3
+                    break
+                # 如何和str匹配并且和pattern *后的字符不匹配
+                else:
+                    break
+            # break则不执行
+            else:
+                if not self.match(str, p[left]):
+                    return False
+                left += 1
+
+        while left < right - 1 and p[left + 1] == '*':
+            left += 2
+
         # str遍历完后，pattern还没遍历完
         if not left >= right:
             return False
@@ -92,4 +109,4 @@ class Solution:
 
 # @lc code=end
 
-print(Solution().isMatch('ab.d', 'a..d'))
+print(Solution().isMatch('mississippi', 'mis*is*ip*.'))
